@@ -1,0 +1,29 @@
+name: Insta Comment Bot
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Har 5 mins mein run karega
+  workflow_dispatch:       # Manual run ka option bhi milega
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run bot
+        run: python main.py
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          MEDIA_ID: ${{ secrets.MEDIA_ID }}
